@@ -40,6 +40,7 @@ export type Product = {
   gallery?: { image: string; label: Bilingual }[];
   franchises?: string[];
   price: number | null;
+  oldPrice?: number | null;
   featured: boolean;
   status: "sample" | "inquiry";
   soldOut?: boolean;

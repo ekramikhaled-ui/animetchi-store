@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { Heart, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getCategory, money, type Product } from "@/lib/catalog";
+import { money, type Product } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 
 export function ProductCard({ product }: { product: Product }) {
-  const { language, t, addToCart, wishlist, toggleWishlist } = useStore();
-  const category = getCategory(product.category);
+  const { categories, language, t, addToCart, wishlist, toggleWishlist } = useStore();
+  const category = categories.find(item => item.slug === product.category);
   const saved = wishlist.includes(product.id);
   return <article className="group flex min-w-0 flex-col">
     <div className="relative aspect-[4/5] overflow-hidden bg-muted">
@@ -22,7 +22,7 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="mt-1 min-w-0">
         <Link to="/product/$productId" params={{ productId: product.id }} className="block min-h-12 min-w-0 break-words font-bold leading-snug hover:text-primary">{product.name[language]}</Link>
         <p className="mt-2 text-xs text-muted-foreground">{product.price === null ? t.inquiryPrice : t.samplePrice}</p>
-        <span className="block text-sm font-bold">{product.price === null ? "—" : money(product.price, language)}</span>
+        {product.price !== null && product.oldPrice != null && product.oldPrice > product.price ? <del className="block text-xs text-muted-foreground">{money(product.oldPrice, language)}</del> : null}<span className="block text-sm font-bold">{product.price === null ? "—" : money(product.price, language)}</span>
       </div>
       <Button onClick={() => addToCart(product.id)} disabled={product.soldOut || product.price === null} className="mt-4 h-auto min-h-11 w-full whitespace-normal px-2 py-2 text-xs sm:text-sm"><Plus className="shrink-0" />{product.soldOut ? t.soldOut : product.price === null ? t.inquiryPrice : t.addCart}</Button>
     </div>

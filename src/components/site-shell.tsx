@@ -5,11 +5,10 @@ import { BrandMark } from "./brand-mark";
 import { DemoAdminEntry } from "./demo-admin-entry";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { categories } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
-  const { language, setLanguage, t, cart } = useStore();
+  const { categories, language, setLanguage, t, cart } = useStore();
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const nav = [{ to: "/", label: t.home }, { to: "/shop", label: t.shop }, { to: "/wholesale", label: t.wholesale }, { to: "/about", label: t.about }, { to: "/contact", label: t.contact }] as const;

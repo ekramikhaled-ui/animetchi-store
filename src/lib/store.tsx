@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { copy, type Language } from "./i18n";
-import { initialProducts, type Product } from "./catalog";
+import { initialProducts, categories as initialCategories, type Category, type Product } from "./catalog";
+import { catalogStorageKey, persistCatalog, type CatalogSnapshot } from "./catalog-editor";
 
 type CartLine = { productId: string; quantity: number; variant?: string };
 type DemoUser = { name: string; email: string } | null;
@@ -10,6 +11,7 @@ type StoreValue = {
   wishlist: string[]; toggleWishlist: (id: string) => void;
   user: DemoUser; login: (name: string, email: string) => void; logout: () => void;
   products: Product[]; setProducts: (products: Product[]) => void; resetProducts: () => void;
+  categories: Category[]; saveProduct: (product: Product, category?: Category) => boolean; storageError: boolean;
   demoAdminUnlocked: boolean; unlockDemoAdmin: (password: string) => boolean;
 };
 
@@ -43,17 +45,26 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [user, setUser] = useState<DemoUser>(null);
   const [products, setProductsState] = useState<Product[]>(initialProducts);
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
+  const [storageError, setStorageError] = useState(false);
   useEffect(() => {
     setLanguageState(readStorage("ah-language", "en")); setCart(readStorage("ah-cart", [])); setWishlist(readStorage("ah-wishlist", [])); setUser(readStorage("ah-user", null));
     const saved = readStorage<Product[]>("ah-products", initialProducts);
     const upgraded = readStorage<number>("ah-catalog-version", 1) < 2 ? upgradeCatalog(saved) : saved;
-    setProductsState(upgraded); setHydrated(true);
+    const snapshot = readStorage<CatalogSnapshot | null>(catalogStorageKey, null);
+    setProductsState(snapshot?.products ?? upgraded); setCategories(snapshot?.categories ?? initialCategories); setHydrated(true);
   }, []);
   useEffect(() => { if (!hydrated) return; document.documentElement.lang = language; document.documentElement.dir = language === "ar" ? "rtl" : "ltr"; localStorage.setItem("ah-language", JSON.stringify(language)); }, [hydrated, language]);
   useEffect(() => { if (hydrated) localStorage.setItem("ah-cart", JSON.stringify(cart)); }, [cart, hydrated]);
   useEffect(() => { if (hydrated) localStorage.setItem("ah-wishlist", JSON.stringify(wishlist)); }, [wishlist, hydrated]);
   useEffect(() => { if (hydrated) localStorage.setItem("ah-user", JSON.stringify(user)); }, [user, hydrated]);
-  useEffect(() => { if (hydrated) { localStorage.setItem("ah-products", JSON.stringify(products)); localStorage.setItem("ah-catalog-version", "2"); } }, [products, hydrated]);
+  const commitCatalog = (nextProducts: Product[], nextCategories = categories) => {
+    if (!hydrated) return false;
+    const saved = persistCatalog(window.localStorage, { products: nextProducts, categories: nextCategories });
+    setStorageError(!saved);
+    if (!saved) return false;
+    setProductsState(nextProducts); setCategories(nextCategories); return true;
+  };
   const value = useMemo<StoreValue>(() => ({
     language, setLanguage: setLanguageState, t: copy[language], cart,
     demoAdminUnlocked, unlockDemoAdmin: (password) => { const valid = password === "1234"; if (valid) setDemoAdminUnlocked(true); return valid; },
@@ -61,8 +72,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setQuantity: (index, quantity) => setCart((lines) => quantity < 1 ? lines.filter((_, i) => i !== index) : lines.map((line, i) => { if (i !== index) return line; const product = products.find((item) => item.id === line.productId); if (product?.soldOut && quantity > line.quantity) return line; return { ...line, quantity }; })),
     removeFromCart: (index) => setCart((lines) => lines.filter((_, i) => i !== index)), clearCart: () => setCart([]),
     wishlist, toggleWishlist: (id) => setWishlist((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]),
-    user, login: (name, email) => setUser({ name, email }), logout: () => setUser(null), products, setProducts: setProductsState, resetProducts: () => setProductsState(initialProducts),
-  }), [language, cart, wishlist, user, products, demoAdminUnlocked]);
+    user, login: (name, email) => setUser({ name, email }), logout: () => setUser(null), products, categories, storageError,
+    setProducts: (next) => { commitCatalog(next); }, resetProducts: () => { commitCatalog(initialProducts); },
+    saveProduct: (product, category) => commitCatalog(products.some(item => item.id === product.id) ? products.map(item => item.id === product.id ? product : item) : [product, ...products], category ? [...categories, category] : categories),
+  }), [language, cart, wishlist, user, products, categories, storageError, hydrated, demoAdminUnlocked]);
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 
