@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { initialProducts } from "./catalog";
+import type { Product } from "./catalog";
 import { applyProductDraft, catalogStorageKey, createCategory, persistCatalog, type ProductDraft } from "./catalog-editor";
 
 const draft: ProductDraft = { name: { en: "Manual figure", ar: "مجسم يدوي" }, price: 125, oldPrice: 180, category: "figures", image: "data:image/png;base64,aGVsbG8=", soldOut: true };
@@ -10,8 +10,13 @@ describe("manual demo catalog", () => {
     expect(product).toMatchObject({ id: "manual", ...draft, status: "sample" });
   });
   it("preserves unedited product fields and identifiers", () => {
-    const existing = initialProducts.find(product => product.id === "pulse-controller");
-    if (!existing) throw new Error("Missing test seed");
+    const existing: Product = {
+      id: "pulse-controller", name: { en: "Controller", ar: "ذراع" }, description: { en: "Demo", ar: "تجريبي" },
+      image: "front.jpg", category: "gaming", subcategory: { en: "Controllers", ar: "أذرع" }, price: 850,
+      featured: false, status: "sample", tags: ["demo"], details: [], franchises: ["naruto"],
+      variants: [{ en: "Small", ar: "صغير" }],
+      gallery: [{ image: "front.jpg", label: { en: "Front", ar: "أمام" } }, { image: "back.jpg", label: { en: "Back", ar: "خلف" } }],
+    };
     const updated = applyProductDraft(draft, existing.id, existing);
     expect(updated.id).toBe("pulse-controller");
     expect(updated.variants).toEqual(existing.variants);
