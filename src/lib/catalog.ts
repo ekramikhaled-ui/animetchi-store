@@ -38,6 +38,7 @@ export type Product = {
   subcategory: Bilingual;
   image: string;
   gallery?: { image: string; label: Bilingual }[];
+  detailImage?: string;
   franchises?: string[];
   price: number | null;
   oldPrice?: number | null;
