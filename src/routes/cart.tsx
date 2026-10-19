@@ -5,7 +5,7 @@ import { CheckoutForm } from "@/components/checkout-form";
 import { money } from "@/lib/catalog";
 import { checkoutCopy } from "@/lib/checkout-copy";
 import { useStore } from "@/lib/store";
-export const Route=createFileRoute("/cart")({head:()=>({meta:[{title:"Shopping Cart — Anime House Concept"},{name:"description",content:"Review sample products in your Anime House demo cart."},{property:"og:title",content:"Shopping Cart — Anime House Concept"},{property:"og:description",content:"Review sample products in your demo cart."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Cart});
+export const Route=createFileRoute("/cart")({head:()=>({meta:[{title:"Shopping Cart — Animetchi Demo Store"},{name:"description",content:"Review sample products in your Animetchi demo cart."},{property:"og:title",content:"Shopping Cart — Animetchi Demo Store"},{property:"og:description",content:"Review sample products in your demo cart."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Cart});
 function Cart() {
   const { cart, products, language, t, setQuantity, removeFromCart, clearCart } = useStore();
   const c = checkoutCopy[language];

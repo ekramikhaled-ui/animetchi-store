@@ -81,9 +81,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Anime House — Private Store Concept" },
-      { name: "description", content: "A private bilingual e-commerce concept for Anime House." },
-      { name: "author", content: "Anime House concept" },
+      { title: "Animetchi — Private Store Concept" },
+      { name: "description", content: "A private bilingual e-commerce concept for Animetchi." },
+      { name: "author", content: "Animetchi concept" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

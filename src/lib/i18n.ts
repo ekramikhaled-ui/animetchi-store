@@ -19,7 +19,7 @@ export const copy = {
     admin: "Admin demo", overview: "Overview", products: "Products", inquiries: "Inquiries", settings: "Settings", addProduct: "Add demo product", edit: "Edit", delete: "Delete", price: "Demo price", featuredLabel: "Featured", resetCatalog: "Reset sample catalog", adminNotice: "Local demonstration only — not a secure production dashboard.",
     submit: "Submit demo inquiry", message: "Message", businessName: "Business name (optional)", phone: "WhatsApp number", interested: "Interested categories", sentDemo: "Demo complete. Nothing was transmitted.", required: "Please complete the required fields.",
     conceptTitle: "A concept for a more collectible shopping experience.", contactTitle: "Let’s start a conversation.", aboutTitle: "Built around discovery, not noise.",
-    footerText: "A private bilingual e-commerce concept for review. Not the official Anime House website.", notFound: "That page wandered off the shelf.", goHome: "Go home"
+    footerText: "A private bilingual e-commerce concept for review. Not the official Animetchi website.", notFound: "That page wandered off the shelf.", goHome: "Go home"
   },
   ar: {
     franchise: "سلسلة الأنمي", allFranchises: "كل السلاسل", originalDesigns: "تصاميم أصلية / بدون سلسلة", franchiseNotice: "أسماء السلاسل لتصفح النموذج فقط. الترخيص والأصالة غير موثّقين.", sampleProduct: "منتج تجريبي", sampleImagery: "صور مولّدة للعرض — ليست صوراً لمخزون موثّق.", gallery: "صور المنتج", option: "الخيار", relatedSamples: "منتجات مرتبطة", configurationNotice: "رقم واتساب والبريد وروابط التواصل والسياسات عناصر مؤقتة قابلة للإعداد.", decrease: "تقليل الكمية", increase: "زيادة الكمية",
@@ -39,6 +39,6 @@ export const copy = {
     admin: "لوحة الإدارة التجريبية", overview: "نظرة عامة", products: "المنتجات", inquiries: "الاستفسارات", settings: "الإعدادات", addProduct: "إضافة منتج تجريبي", edit: "تعديل", delete: "حذف", price: "سعر تجريبي", featuredLabel: "مميز", resetCatalog: "استعادة الكتالوج التجريبي", adminNotice: "عرض محلي فقط — ليست لوحة إدارة إنتاجية آمنة.",
     submit: "إرسال استفسار تجريبي", message: "الرسالة", businessName: "اسم النشاط (اختياري)", phone: "رقم واتساب", interested: "الفئات المطلوبة", sentDemo: "اكتمل العرض. لم يتم إرسال أي بيانات.", required: "يرجى إكمال الحقول المطلوبة.",
     conceptTitle: "تصور لتجربة تسوق أكثر تميزاً لهواة الاقتناء.", contactTitle: "لنبدأ الحديث.", aboutTitle: "مصمم للاكتشاف، بعيداً عن الضوضاء.",
-    footerText: "تصور خاص لمتجر إلكتروني ثنائي اللغة للمراجعة. ليس الموقع الرسمي لـ Anime House.", notFound: "يبدو أن هذه الصفحة غادرت الرف.", goHome: "العودة للرئيسية"
+    footerText: "تصور خاص لمتجر إلكتروني ثنائي اللغة للمراجعة. ليس الموقع الرسمي لمتجر أنيميتشي.", notFound: "يبدو أن هذه الصفحة غادرت الرف.", goHome: "العودة للرئيسية"
   }
 } as const;

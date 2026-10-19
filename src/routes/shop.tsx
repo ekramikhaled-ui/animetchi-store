@@ -8,7 +8,7 @@ import { ProductCard } from "@/components/product-card";
 import { categories, franchises } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 
-export const Route = createFileRoute("/shop")({ validateSearch: (search: Record<string, unknown>) => ({ q: typeof search["q"] === "string" ? search["q"] : "" }), head: () => ({ meta: [{ title: "Shop Sample Products — Anime House Concept" }, { name: "description", content: "Explore the bilingual Anime House sample catalog by category, franchise and price." }, { property: "og:title", content: "Shop — Anime House Concept" }, { property: "og:description", content: "Browse distinct demo merchandise by category and anime franchise." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }), component: Shop });
+export const Route = createFileRoute("/shop")({ validateSearch: (search: Record<string, unknown>) => ({ q: typeof search["q"] === "string" ? search["q"] : "" }), head: () => ({ meta: [{ title: "Shop Sample Products — Animetchi Demo Store" }, { name: "description", content: "Explore the bilingual Animetchi sample catalog by category, franchise and price." }, { property: "og:title", content: "Shop — Animetchi Demo Store" }, { property: "og:description", content: "Browse distinct demo merchandise by category and anime franchise." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }), component: Shop });
 function Shop() {
   const search = Route.useSearch();
   const { language, t, products } = useStore();
