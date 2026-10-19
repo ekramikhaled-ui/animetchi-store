@@ -11,7 +11,7 @@ import { applyProductDraft, createCategory } from "@/lib/catalog-editor";
 import { editorCopy } from "@/lib/catalog-editor-copy";
 import { useStore } from "@/lib/store";
 
-export function ProductEditor({ product, onClose }: { product?: Product; onClose: () => void }) {
+export function ProductEditor({ product, onClose }: { product?: Product | undefined; onClose: () => void }) {
   const { language, t, categories, saveProduct } = useStore();
   const c = editorCopy[language];
   const [nameEn, setNameEn] = useState(product?.name.en ?? "");
