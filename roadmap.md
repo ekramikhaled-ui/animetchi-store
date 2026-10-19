@@ -1,5 +1,9 @@
 # Animetchi demo roadmap
 
+- [ ] Add full bilingual product modal, image upload/URL preview and old price
+- [ ] Persist custom categories and synchronize every catalog view
+- [ ] Verify add/edit, reload persistence, stock restrictions and Arabic/mobile editor
+
 - [x] Add validated customer checkout and live WhatsApp order message without changing the cart
 - [x] Verify recipient, totals, required fields and mobile/desktop handoff; external delivery and actual device-app launch remain unverified
 
