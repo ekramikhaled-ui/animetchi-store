@@ -6,7 +6,7 @@ export const copy = {
     soldOut: "Sold Out", available: "Available", adminLink: "Control panel (demo)", adminPasswordTitle: "Demo control panel", adminPasswordError: "Incorrect demo password.", adminEnter: "Open control panel", availability: "Availability",
     home: "Home", shop: "Shop", categories: "Categories", wholesale: "Wholesale", about: "About", contact: "Contact",
     search: "Search", account: "Account", cart: "Cart", wishlist: "Saved", menu: "Menu", close: "Close", language: "العربية",
-    explore: "Explore collection", wholesaleCta: "Wholesale inquiries", demo: "Private concept demo — sample products and prices only.",
+    explore: "Explore collection", wholesaleCta: "Wholesale inquiries", demo: "Animetchi Demo Store — sample products and prices only.",
     addCart: "Add to cart", added: "Added to cart", view: "View details", samplePrice: "Sample price", inquiryPrice: "Price on request",
     featured: "Featured samples", featuredCopy: "A curated look at how the collection could come together.", browseAll: "Browse all products",
     discover: "A house for every kind of fan.", discoverCopy: "One considered destination for collectors, readers, gamers, beauty explorers and pop-culture communities.",
@@ -19,14 +19,14 @@ export const copy = {
     admin: "Admin demo", overview: "Overview", products: "Products", inquiries: "Inquiries", settings: "Settings", addProduct: "Add demo product", edit: "Edit", delete: "Delete", price: "Demo price", featuredLabel: "Featured", resetCatalog: "Reset sample catalog", adminNotice: "Local demonstration only — not a secure production dashboard.",
     submit: "Submit demo inquiry", message: "Message", businessName: "Business name (optional)", phone: "WhatsApp number", interested: "Interested categories", sentDemo: "Demo complete. Nothing was transmitted.", required: "Please complete the required fields.",
     conceptTitle: "A concept for a more collectible shopping experience.", contactTitle: "Let’s start a conversation.", aboutTitle: "Built around discovery, not noise.",
-    footerText: "A private bilingual e-commerce concept for review. Not the official Anime House website.", notFound: "That page wandered off the shelf.", goHome: "Go home"
+    footerText: "A private bilingual e-commerce concept for review. Not the official Animetchi website.", notFound: "That page wandered off the shelf.", goHome: "Go home"
   },
   ar: {
     franchise: "سلسلة الأنمي", allFranchises: "كل السلاسل", originalDesigns: "تصاميم أصلية / بدون سلسلة", franchiseNotice: "أسماء السلاسل لتصفح النموذج فقط. الترخيص والأصالة غير موثّقين.", sampleProduct: "منتج تجريبي", sampleImagery: "صور مولّدة للعرض — ليست صوراً لمخزون موثّق.", gallery: "صور المنتج", option: "الخيار", relatedSamples: "منتجات مرتبطة", configurationNotice: "رقم واتساب والبريد وروابط التواصل والسياسات عناصر مؤقتة قابلة للإعداد.", decrease: "تقليل الكمية", increase: "زيادة الكمية",
     soldOut: "نفدت الكمية", available: "متوفر", adminLink: "لوحة التحكم (تجريبي)", adminPasswordTitle: "لوحة التحكم التجريبية", adminPasswordError: "كلمة المرور التجريبية غير صحيحة.", adminEnter: "فتح لوحة التحكم", availability: "حالة المنتج",
     home: "الرئيسية", shop: "المتجر", categories: "الفئات", wholesale: "الجملة", about: "عن المتجر", contact: "تواصل معنا",
     search: "بحث", account: "الحساب", cart: "السلة", wishlist: "المحفوظات", menu: "القائمة", close: "إغلاق", language: "English",
-    explore: "استكشف المجموعة", wholesaleCta: "استفسارات الجملة", demo: "نموذج تصوري خاص — المنتجات والأسعار للعرض فقط.",
+    explore: "استكشف المجموعة", wholesaleCta: "استفسارات الجملة", demo: "متجر أنيميتشي التجريبي — المنتجات والأسعار للعرض فقط.",
     addCart: "أضف للسلة", added: "تمت الإضافة للسلة", view: "عرض التفاصيل", samplePrice: "سعر تجريبي", inquiryPrice: "السعر عند الطلب",
     featured: "نماذج مختارة", featuredCopy: "نظرة منتقاة على الشكل المقترح للمجموعة.", browseAll: "تصفح كل المنتجات",
     discover: "بيت لكل أنواع المعجبين.", discoverCopy: "وجهة مدروسة لهواة الاقتناء والقراءة والألعاب والجمال ومجتمعات ثقافة البوب.",
@@ -39,6 +39,6 @@ export const copy = {
     admin: "لوحة الإدارة التجريبية", overview: "نظرة عامة", products: "المنتجات", inquiries: "الاستفسارات", settings: "الإعدادات", addProduct: "إضافة منتج تجريبي", edit: "تعديل", delete: "حذف", price: "سعر تجريبي", featuredLabel: "مميز", resetCatalog: "استعادة الكتالوج التجريبي", adminNotice: "عرض محلي فقط — ليست لوحة إدارة إنتاجية آمنة.",
     submit: "إرسال استفسار تجريبي", message: "الرسالة", businessName: "اسم النشاط (اختياري)", phone: "رقم واتساب", interested: "الفئات المطلوبة", sentDemo: "اكتمل العرض. لم يتم إرسال أي بيانات.", required: "يرجى إكمال الحقول المطلوبة.",
     conceptTitle: "تصور لتجربة تسوق أكثر تميزاً لهواة الاقتناء.", contactTitle: "لنبدأ الحديث.", aboutTitle: "مصمم للاكتشاف، بعيداً عن الضوضاء.",
-    footerText: "تصور خاص لمتجر إلكتروني ثنائي اللغة للمراجعة. ليس الموقع الرسمي لـ Anime House.", notFound: "يبدو أن هذه الصفحة غادرت الرف.", goHome: "العودة للرئيسية"
+    footerText: "تصور خاص لمتجر إلكتروني ثنائي اللغة للمراجعة. ليس الموقع الرسمي لمتجر أنيميتشي.", notFound: "يبدو أن هذه الصفحة غادرت الرف.", goHome: "العودة للرئيسية"
   }
 } as const;

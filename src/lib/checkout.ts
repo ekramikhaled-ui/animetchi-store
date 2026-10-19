@@ -33,7 +33,7 @@ export function buildCheckout(cart: CheckoutCartLine[], products: Product[], cus
   if (!/^[1-9]\d{7,14}$/.test(config.whatsappRecipient) || !priceSchema.safeParse(config.shippingCostEGP).success) return { ok: false, error: "configuration" };
   const ar = language === "ar";
   const c = validatedCustomer.data;
-  const parts = [ar ? "طلب جديد من متجر Anime House" : "New order from Anime House", ar ? "المنتجات والأسعار تجريبية؛ التوفر وقبول الطلب يحتاجان تأكيد المتجر." : "Sample products and prices; availability and order acceptance require store confirmation.", "", `${ar ? "اسم العميل" : "Customer name"}: ${c.fullName}`, `${ar ? "رقم الهاتف" : "Phone"}: ${c.phone}`, `${ar ? "المحافظة" : "Governorate"}: ${c.governorate}`, `${ar ? "المنطقة / المدينة" : "Area / city"}: ${c.city}`, `${ar ? "العنوان بالتفصيل" : "Detailed address"}: ${c.address}`, "", ar ? "المنتجات المطلوبة:" : "Requested products:"];
+  const parts = [ar ? "طلب جديد من متجر أنيميتشي" : "New order from Animetchi", ar ? "المنتجات والأسعار تجريبية؛ التوفر وقبول الطلب يحتاجان تأكيد المتجر." : "Sample products and prices; availability and order acceptance require store confirmation.", "", `${ar ? "اسم العميل" : "Customer name"}: ${c.fullName}`, `${ar ? "رقم الهاتف" : "Phone"}: ${c.phone}`, `${ar ? "المحافظة" : "Governorate"}: ${c.governorate}`, `${ar ? "المنطقة / المدينة" : "Area / city"}: ${c.city}`, `${ar ? "العنوان بالتفصيل" : "Detailed address"}: ${c.address}`, "", ar ? "المنتجات المطلوبة:" : "Requested products:"];
   let cents = 0;
   let pieces = 0;
   let unknownPrice = false;

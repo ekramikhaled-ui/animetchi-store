@@ -1,4 +1,4 @@
-# Anime House demo roadmap
+# Animetchi demo roadmap
 
 - [x] Add validated customer checkout and live WhatsApp order message without changing the cart
 - [x] Verify recipient, totals, required fields and mobile/desktop handoff; external delivery and actual device-app launch remain unverified
