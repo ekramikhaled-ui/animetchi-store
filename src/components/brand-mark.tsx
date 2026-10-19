@@ -1,0 +1,3 @@
+export function BrandMark({ compact = false }: { compact?: boolean }) {
+  return <span className="inline-flex items-center gap-2 font-black uppercase tracking-[0.08em] text-foreground"><span className="grid size-8 place-items-center bg-primary text-sm text-primary-foreground [clip-path:polygon(50%_0,100%_25%,100%_75%,50%_100%,0_75%,0_25%)]">A</span>{compact ? null : <span>Anime House</span>}</span>;
+}
