@@ -1,5 +1,6 @@
 export const editorCopy = {
   en: {
+    variants: "Product variants / options", addVariant: "Add variant", variantName: "Variant name", variantImage: "Variant image", variantPrice: "Custom sample price (EGP, optional)", deleteVariant: "Delete variant", moveUp: "Move up", moveDown: "Move down", chooseVariant: "Choose design / character", variantError: "Each variant needs a name, a working image and a valid optional price.",
     cover: "Cover image (4:5)", detail: "Detail image (1:1, optional)", categoryImage: "Category image", descriptionEn: "Description (English, optional)", descriptionAr: "Description (Arabic, optional)", categoryImageError: "Choose a working category image.",
     add: "Add demo product", edit: "Edit product", nameEn: "Product name (English)", nameAr: "Product name (Arabic)",
     price: "Sample price (EGP)", oldPrice: "Old price (EGP, optional)", category: "Category", newCategory: "Add new category",
@@ -11,6 +12,7 @@ export const editorCopy = {
     storageError: "Could not save locally. Browser storage may be full or unavailable; try a smaller image.",
   },
   ar: {
+    variants: "خيارات وتصميمات المنتج", addVariant: "إضافة تصميم / شخصية جديدة", variantName: "اسم التصميم / الشخصية", variantImage: "صورة التصميم", variantPrice: "سعر تجريبي خاص (جنيه، اختياري)", deleteVariant: "حذف التصميم", moveUp: "تحريك لأعلى", moveDown: "تحريك لأسفل", chooseVariant: "اختر الشخصية / التصميم", variantError: "أدخل اسمًا وصورة صالحة وسعرًا اختياريًا صحيحًا لكل تصميم.",
     cover: "صورة الغلاف (4:5)", detail: "صورة التفاصيل (1:1، اختياري)", categoryImage: "صورة الفئة", descriptionEn: "الوصف (بالإنجليزية، اختياري)", descriptionAr: "الوصف (بالعربية، اختياري)", categoryImageError: "اختر صورة صالحة للفئة.",
     add: "إضافة منتج تجريبي", edit: "تعديل المنتج", nameEn: "اسم المنتج (بالإنجليزية)", nameAr: "اسم المنتج (بالعربية)",
     price: "السعر التجريبي (جنيه)", oldPrice: "السعر القديم (جنيه، اختياري)", category: "الفئة", newCategory: "إضافة فئة جديدة",

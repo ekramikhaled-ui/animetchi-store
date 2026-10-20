@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { Product } from "./catalog";
 import type { Language } from "./i18n";
 import { checkoutConfig } from "./checkout-config";
+import { selectedVariant, variantName, variantPrice, type VariantCartLine } from "./product-variants";
 
 const normalizeDigits = (value: string) => value.replace(/[٠-٩۰-۹]/g, digit => {
   const code = digit.charCodeAt(0);
@@ -17,10 +18,10 @@ export const customerSchema = z.object({
   notes: text(0, 1000),
 });
 export type Customer = z.infer<typeof customerSchema>;
-export type CheckoutCartLine = { productId: string; quantity: number; variant?: string };
+export type CheckoutCartLine = VariantCartLine;
 export type CheckoutError = "empty" | "unavailable" | "invalidCart" | "invalidCustomer" | "configuration" | "tooLong";
 type Result = { ok: true; message: string; url: string; pieces: number; subtotal: number | null; finalTotal: number | null } | { ok: false; error: CheckoutError };
-const cartSchema = z.array(z.object({ productId: text(1, 100), quantity: z.number().int().min(1).max(999), variant: text(1, 100).optional() })).max(100);
+const cartSchema = z.array(z.object({ productId: text(1, 100), quantity: z.number().int().min(1).max(999), variant: text(1, 100).optional(), variantId: text(1, 200).optional(), variantName: text(1, 100).optional(), variantImage: z.string().optional() })).max(100);
 const priceSchema = z.number().finite().min(0).max(10000000).nullable();
 const formatPrice = (value: number, language: Language) => new Intl.NumberFormat(language === "ar" ? "ar-EG" : "en-EG", { style: "currency", currency: "EGP", maximumFractionDigits: 2 }).format(value);
 
@@ -41,9 +42,13 @@ export function buildCheckout(cart: CheckoutCartLine[], products: Product[], cus
     const product = products.find(item => item.id === line.productId);
     if (!product || product.soldOut) return { ok: false, error: "unavailable" };
     if (!priceSchema.safeParse(product.price).success || !text(1, 200).safeParse(product.name[language]).success) return { ok: false, error: "invalidCart" };
-    if (product.variants?.length && !product.variants.some(item => item.en === line.variant)) return { ok: false, error: "invalidCart" };
-    const variant = product.variants?.find(item => item.en === line.variant)?.[language] ?? line.variant;
-    const unitCents = product.price === null ? null : Math.round(product.price * 100);
+    const option = selectedVariant(product, line);
+    if ((product.variants?.length || line.variantId) && !option) return { ok: false, error: "invalidCart" };
+    if (option && !option.inStock) return { ok: false, error: "unavailable" };
+    const price = variantPrice(product, option);
+    if (!priceSchema.safeParse(price).success) return { ok: false, error: "invalidCart" };
+    const variant = line.variantName ?? (option ? variantName(option, language) : line.variant);
+    const unitCents = price === null ? null : Math.round(price * 100);
     const lineCents = unitCents === null ? null : unitCents * line.quantity;
     unknownPrice ||= lineCents === null;
     cents += lineCents ?? 0;
