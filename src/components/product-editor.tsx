@@ -12,6 +12,8 @@ import type { Product } from "@/lib/catalog";
 import { applyProductDraft, createCategory } from "@/lib/catalog-editor";
 import { editorCopy } from "@/lib/catalog-editor-copy";
 import { useStore } from "@/lib/store";
+import { ProductVariantEditor, type VariantDraft } from "./product-variant-editor";
+import { validVariants } from "@/lib/product-variants";
 
 export function ProductEditor({ product, onClose }: { product?: Product | undefined; onClose: () => void }) {
   const { language, t, categories, saveProduct } = useStore();
@@ -31,7 +33,8 @@ export function ProductEditor({ product, onClose }: { product?: Product | undefi
   const [descriptionAr, setDescriptionAr] = useState(product?.description.ar ?? "");
   const [soldOut, setSoldOut] = useState(product?.soldOut ?? false);
   const [error, setError] = useState("");
-  const reading = cover.reading || detail.reading || (custom && categoryImage.reading);
+  const [variants, setVariants] = useState<VariantDraft[]>(() => (product?.variants ?? []).map(variant => ({ variant, image: { image: variant.image, ready: false, reading: false }, price: variant.price?.toString() ?? "" })));
+  const reading = cover.reading || detail.reading || (custom && categoryImage.reading) || variants.some(item => item.image.reading);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -39,9 +42,11 @@ export function ProductEditor({ product, onClose }: { product?: Product | undefi
     if (!cover.image || !cover.ready || reading || (detail.image && !detail.ready)) { setError(c.imageError); return; }
     if (custom && (!categoryImage.image || !categoryImage.ready)) { setError(c.categoryImageError); return; }
     const previousPrice = oldPrice.trim() ? Number(oldPrice) : null;
+    const options = variants.map(item => ({ ...item.variant, name: item.variant.name.trim(), image: item.image.image, price: item.price.trim() ? Number(item.price) : undefined }));
+    if (!validVariants(options) || variants.some(item => !item.image.ready || item.image.reading)) { setError(c.variantError); return; }
     if (previousPrice !== null && (!Number.isFinite(previousPrice) || previousPrice <= Number(price))) { setError(c.priceError); return; }
     const newCategory = custom ? createCategory({ en: categoryEn, ar: categoryAr }, categoryImage.image, categories) : undefined;
-    const next = applyProductDraft({ name: { en: nameEn, ar: nameAr }, price: Number(price), oldPrice: previousPrice, category: newCategory?.slug ?? category, image: cover.image, detailImage: detail.image, description: { en: descriptionEn, ar: descriptionAr }, soldOut }, product?.id ?? `demo-${crypto.randomUUID()}`, product);
+    const next = applyProductDraft({ name: { en: nameEn, ar: nameAr }, price: Number(price), oldPrice: previousPrice, category: newCategory?.slug ?? category, image: cover.image, detailImage: detail.image, description: { en: descriptionEn, ar: descriptionAr }, soldOut, variants: options }, product?.id ?? `demo-${crypto.randomUUID()}`, product);
     if (!saveProduct(next, newCategory)) { setError(c.storageError); return; }
     onClose();
   }
@@ -72,6 +77,7 @@ export function ProductEditor({ product, onClose }: { product?: Product | undefi
             <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-4"><Label htmlFor="product-stock">{c.stock}</Label><div className="flex items-center gap-2"><Switch id="product-stock" checked={!soldOut} onCheckedChange={value => setSoldOut(!value)} /><span className="text-sm">{soldOut ? c.soldOut : c.inStock}</span></div></div>
           </div>
         </div>
+        <ProductVariantEditor items={variants} onChange={setVariants} />
         {error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}
         <div className="flex flex-wrap justify-end gap-3 border-t pt-4"><Button type="button" variant="outline" onClick={onClose}>{c.cancel}</Button><Button type="submit" disabled={reading}><Save />{c.save}</Button></div>
       </form>

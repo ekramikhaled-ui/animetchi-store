@@ -2,8 +2,9 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import { copy, type Language } from "./i18n";
 import { initialProducts, categories as initialCategories, type Category, type Product } from "./catalog";
 import { catalogStorageKey, persistCatalog, type CatalogSnapshot } from "./catalog-editor";
+import { canPurchase, cartSelection, migrateVariantCart, normalizeProductVariants, selectedVariant, type VariantCartLine } from "./product-variants";
 
-type CartLine = { productId: string; quantity: number; variant?: string };
+type CartLine = VariantCartLine;
 type DemoUser = { name: string; email: string } | null;
 type StoreValue = {
   language: Language; setLanguage: (language: Language) => void; t: typeof copy.en | typeof copy.ar;
@@ -52,7 +53,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const saved = readStorage<Product[]>("ah-products", initialProducts);
     const upgraded = readStorage<number>("ah-catalog-version", 1) < 2 ? upgradeCatalog(saved) : saved;
     const snapshot = readStorage<CatalogSnapshot | null>(catalogStorageKey, null);
-    setProductsState(snapshot?.products ?? upgraded); setCategories(snapshot?.categories ?? initialCategories); setHydrated(true);
+    const normalized = (snapshot?.products ?? upgraded).map(normalizeProductVariants);
+    setProductsState(normalized); setCart(migrateVariantCart(readStorage<CartLine[]>("ah-cart", []), normalized)); setCategories(snapshot?.categories ?? initialCategories); setHydrated(true);
   }, []);
   useEffect(() => { if (!hydrated) return; document.documentElement.lang = language; document.documentElement.dir = language === "ar" ? "rtl" : "ltr"; localStorage.setItem("ah-language", JSON.stringify(language)); }, [hydrated, language]);
   useEffect(() => { if (hydrated) localStorage.setItem("ah-cart", JSON.stringify(cart)); }, [cart, hydrated]);
@@ -68,8 +70,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const value = useMemo<StoreValue>(() => ({
     language, setLanguage: setLanguageState, t: copy[language], cart,
     demoAdminUnlocked, unlockDemoAdmin: (password) => { const valid = password === "1234"; if (valid) setDemoAdminUnlocked(true); return valid; },
-    addToCart: (productId, quantity = 1, variant) => { const product = products.find((item) => item.id === productId); if (!product || product.soldOut || product.price === null) return; setCart((lines) => { const index = lines.findIndex((line) => line.productId === productId && line.variant === variant); if (index < 0) return [...lines, { productId, quantity, ...(variant ? { variant } : {}) }]; return lines.map((line, i) => i === index ? { ...line, quantity: line.quantity + quantity } : line); }); },
-    setQuantity: (index, quantity) => setCart((lines) => quantity < 1 ? lines.filter((_, i) => i !== index) : lines.map((line, i) => { if (i !== index) return line; const product = products.find((item) => item.id === line.productId); if (product?.soldOut && quantity > line.quantity) return line; return { ...line, quantity }; })),
+    addToCart: (productId, quantity = 1, variantId) => { const product = products.find((item) => item.id === productId); if (!product || !Number.isInteger(quantity) || quantity < 1) return; const variant = selectedVariant(product, { variantId }); if (!canPurchase(product, variant)) return; const selection = cartSelection(product, variant); setCart((lines) => { const index = lines.findIndex((line) => line.productId === productId && line.variantId === selection.variantId); if (index < 0) return [...lines, { ...selection, quantity }]; return lines.map((line, i) => i === index ? { ...line, ...selection, quantity: line.quantity + quantity } : line); }); },
+    setQuantity: (index, quantity) => setCart((lines) => quantity < 1 ? lines.filter((_, i) => i !== index) : lines.map((line, i) => { if (i !== index || !Number.isInteger(quantity)) return line; const product = products.find((item) => item.id === line.productId); if (quantity > line.quantity && (!product || !canPurchase(product, selectedVariant(product, line)))) return line; return { ...line, quantity }; })),
     removeFromCart: (index) => setCart((lines) => lines.filter((_, i) => i !== index)), clearCart: () => setCart([]),
     wishlist, toggleWishlist: (id) => setWishlist((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]),
     user, login: (name, email) => setUser({ name, email }), logout: () => setUser(null), products, categories, storageError,
