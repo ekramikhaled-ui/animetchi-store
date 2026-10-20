@@ -43,7 +43,7 @@ describe("manual demo catalog", () => {
       id: "pulse-controller", name: { en: "Controller", ar: "ذراع" }, description: { en: "Demo", ar: "تجريبي" },
       image: "front.jpg", category: "gaming", subcategory: { en: "Controllers", ar: "أذرع" }, price: 850,
       featured: false, status: "sample", tags: ["demo"], details: [], franchises: ["naruto"],
-      variants: [{ en: "Small", ar: "صغير" }],
+      variants: [{ id: "small", name: "Small", image: "small.jpg", inStock: true }],
       gallery: [{ image: "front.jpg", label: { en: "Front", ar: "أمام" } }, { image: "back.jpg", label: { en: "Back", ar: "خلف" } }],
     };
     const updated = applyProductDraft(draft, existing.id, existing);
