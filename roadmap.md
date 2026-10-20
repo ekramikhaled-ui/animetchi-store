@@ -1,8 +1,8 @@
 # Animetchi demo roadmap
 
-- [ ] Add separate cover/detail images and optional bilingual descriptions
-- [ ] Add custom category image inputs and homepage image links
-- [ ] Verify gallery switching, saved edits, exact ratios and mobile RTL
+- [x] Add separate cover/detail images and optional bilingual descriptions
+- [x] Add custom category image inputs and homepage image links
+- [x] Verify gallery switching, saved edits, exact ratios and mobile RTL
 
 - [x] Add full bilingual product modal, image upload/URL preview and old price
 - [x] Persist custom categories and synchronize every catalog view

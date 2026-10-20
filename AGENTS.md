@@ -16,3 +16,6 @@
 - Keep click-to-chat checkout validation and message calculation in a browser-safe shared module with public configuration; no messaging API or order persistence is involved, so customer details remain in ephemeral form state and the cart is never cleared by handoff.
 - All runtime category browsing reads the shared store; persist product/category edits atomically in one local demo snapshot and retain legacy storage as a migration fallback, so uploads and custom categories survive reloads without overwriting existing edits.
 - Keep the product editor separate from admin listings and apply drafts through browser-safe catalog helpers, preserving product IDs, variants, franchises and secondary gallery images during edits.
+
+- Store the primary cover in Product.image and the managed secondary image in Product.detailImage; derive a deduplicated gallery through productImages while retaining unmanaged legacy gallery entries.
+- Reuse CatalogImageInput for cover, detail and category media so independent upload, URL, preview and readiness validation remain consistent.

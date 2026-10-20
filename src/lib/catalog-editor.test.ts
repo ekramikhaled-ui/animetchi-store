@@ -1,10 +1,39 @@
 import { describe, expect, it } from "vitest";
 import type { Product } from "./catalog";
-import { applyProductDraft, catalogStorageKey, createCategory, persistCatalog, type ProductDraft } from "./catalog-editor";
+import { applyProductDraft, catalogStorageKey, createCategory, persistCatalog, productImages, type ProductDraft } from "./catalog-editor";
 
 const draft: ProductDraft = { name: { en: "Manual figure", ar: "مجسم يدوي" }, price: 125, oldPrice: 180, category: "figures", image: "data:image/png;base64,aGVsbG8=", soldOut: true };
 
 describe("manual demo catalog", () => {
+  it("stores distinct cover and detail images in switchable order", () => {
+    const product = applyProductDraft({ ...draft, image: "cover.jpg", detailImage: "detail.jpg" }, "two-images");
+    expect(product.image).toBe("cover.jpg");
+    expect(product.detailImage).toBe("detail.jpg");
+    expect(productImages(product).map(item => item.image)).toEqual(["cover.jpg", "detail.jpg"]);
+  });
+  it("replaces or removes the managed secondary image without losing other gallery entries", () => {
+    const existing = { ...applyProductDraft(draft, "edit"), gallery: [{ image: draft.image, label: { en: "Cover", ar: "غلاف" } }, { image: "old.jpg", label: { en: "Detail", ar: "تفاصيل" } }, { image: "extra.jpg", label: { en: "Extra", ar: "إضافية" } }] };
+    const edited = applyProductDraft({ ...draft, detailImage: "new.jpg" }, existing.id, existing);
+    expect(productImages(edited).map(item => item.image)).toEqual([draft.image, "new.jpg", "extra.jpg"]);
+    const removed = applyProductDraft({ ...draft, detailImage: "" }, edited.id, edited);
+    expect(productImages(removed).map(item => item.image)).toEqual([draft.image, "extra.jpg"]);
+  });
+  it("supports optional bilingual descriptions including explicitly blank values", () => {
+    const product = applyProductDraft({ ...draft, description: { en: "  First line\nSecond line  ", ar: "  وصف المنتج  " } }, "description");
+    expect(product.description).toEqual({ en: "First line\nSecond line", ar: "وصف المنتج" });
+    expect(applyProductDraft({ ...draft, description: { en: "", ar: "" } }, product.id, product).description).toEqual({ en: "", ar: "" });
+    expect(applyProductDraft(draft, "blank").description).toEqual({ en: "", ar: "" });
+  });
+  it("persists independently chosen category images, product images and descriptions across reloads", () => {
+    let saved = "";
+    const product = applyProductDraft({ ...draft, detailImage: "data:image/png;base64,ZGV0YWls", description: { en: "Details", ar: "تفاصيل" } }, "saved");
+    const category = createCategory({ en: "Custom", ar: "مخصصة" }, "data:image/png;base64,Y2F0ZWdvcnk=", []);
+    persistCatalog({ setItem: (_key, value) => { saved = value; } }, { products: [product], categories: [category] });
+    const restored = JSON.parse(saved);
+    expect(restored.products[0].detailImage).toBe("data:image/png;base64,ZGV0YWls");
+    expect(restored.products[0].description.ar).toBe("تفاصيل");
+    expect(restored.categories[0].image).toBe("data:image/png;base64,Y2F0ZWdvcnk=");
+  });
   it("saves both names, current and old prices, category, uploaded image and simulated stock", () => {
     const product = applyProductDraft(draft, "manual");
     expect(product).toMatchObject({ id: "manual", ...draft, status: "sample" });
