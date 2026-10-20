@@ -24,6 +24,7 @@ import gamingImage from "@/assets/category-gaming.jpg";
 import clothingImage from "@/assets/category-clothing.jpg";
 
 export type Bilingual = { en: string; ar: string };
+export type ProductVariant = { id: string; name: string; image: string; price?: number; inStock: boolean; labels?: Bilingual; sku?: string; stock?: number };
 export type Category = {
   slug: string;
   name: Bilingual;
@@ -46,7 +47,7 @@ export type Product = {
   status: "sample" | "inquiry";
   soldOut?: boolean;
   tags: string[];
-  variants?: Bilingual[];
+  variants?: ProductVariant[];
   details: Bilingual[];
 };
 

@@ -9,6 +9,7 @@ export type ProductDraft = {
   detailImage?: string;
   description?: Product["description"];
   soldOut: boolean;
+  variants?: Product["variants"];
 };
 export type CatalogSnapshot = { products: Product[]; categories: Category[] };
 export const catalogStorageKey = "ah-catalog-state";

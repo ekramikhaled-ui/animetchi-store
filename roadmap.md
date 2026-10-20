@@ -1,5 +1,9 @@
 # Animetchi demo roadmap
 
+- [ ] Add dynamic variant editing, images, prices, simulated stock and ordering
+- [ ] Preserve legacy options and attach selected variant identity/image to cart and checkout
+- [ ] Test variant pricing/availability and verify saved edits, selection, cart and Arabic mobile
+
 - [x] Add separate cover/detail images and optional bilingual descriptions
 - [x] Add custom category image inputs and homepage image links
 - [x] Verify gallery switching, saved edits, exact ratios and mobile RTL
