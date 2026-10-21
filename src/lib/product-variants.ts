@@ -1,6 +1,6 @@
 import type { Bilingual, Product, ProductVariant } from "./catalog";
 
-export type VariantCartLine = { productId: string; quantity: number; variant?: string; variantId?: string; variantName?: string; variantImage?: string };
+export type VariantCartLine = { productId: string; quantity: number; variant?: string | undefined; variantId?: string | undefined; variantName?: string | undefined; variantImage?: string | undefined };
 
 // Keep old bilingual options and saved cart labels usable without resetting catalog edits.
 export function normalizeProductVariants(product: Product): Product {

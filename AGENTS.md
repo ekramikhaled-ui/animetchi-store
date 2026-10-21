@@ -19,3 +19,5 @@
 
 - Store the primary cover in Product.image and the managed secondary image in Product.detailImage; derive a deduplicated gallery through productImages while retaining unmanaged legacy gallery entries.
 - Reuse CatalogImageInput for cover, detail and category media so independent upload, URL, preview and readiness validation remain consistent.
+- Normalize legacy bilingual options into stable dynamic variants without resetting saved catalog/cart data; shared browser-safe variant helpers govern selection, live prices and simulated availability across purchasing paths.
+- Preserve variant ID, name and image on cart lines, while reading current catalog prices/availability for checkout; include public image URLs but never base64 uploads in click-to-chat messages to avoid oversized handoffs.

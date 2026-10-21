@@ -54,6 +54,9 @@ export function buildCheckout(cart: CheckoutCartLine[], products: Product[], cus
     cents += lineCents ?? 0;
     pieces += line.quantity;
     parts.push("", `${product.name[language]}${variant ? ` (${variant})` : ""}`, `${ar ? "الكمية" : "Quantity"}: ${line.quantity}`, `${ar ? "سعر الوحدة" : "Unit price"}: ${unitCents === null ? (ar ? "السعر عند الطلب" : "Price on request") : formatPrice(unitCents / 100, language)}`, `${ar ? "إجمالي المنتج" : "Line total"}: ${lineCents === null ? (ar ? "يحتاج تأكيد السعر" : "Price confirmation required") : formatPrice(lineCents / 100, language)}`);
+    if (option) parts.push(`${ar ? "معرّف التصميم" : "Variant ID"}: ${option.id}`);
+    const image = line.variantImage ?? option?.image;
+    if (image && /^https?:\/\//.test(image)) parts.push(`${ar ? "صورة التصميم" : "Variant image"}: ${image}`);
   }
   const subtotal = unknownPrice ? null : cents / 100;
   const shipping = config.shippingCostEGP === null ? null : Math.round(config.shippingCostEGP * 100) / 100;
