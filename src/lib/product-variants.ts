@@ -12,6 +12,7 @@ export function normalizeProductVariants(product: Product): Product {
 }
 
 export function selectedVariant(product: Product, line: Pick<VariantCartLine, "variantId" | "variant">) {
+  if (!line.variantId && !line.variant) return undefined;
   return product.variants?.find(item => line.variantId ? item.id === line.variantId : item.name === line.variant || item.labels?.en === line.variant);
 }
 export const variantName = (variant: ProductVariant, language: "en" | "ar") => variant.labels?.[language] ?? variant.name;
